@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase'
 import { Resend } from 'resend'
 
 export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,7 +18,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Insert into Supabase
-    const { error: dbError } = await supabaseAdmin
+    const { error: dbError } = await getSupabaseAdmin()
       .from('smw_leads')
       .insert({
         name,
@@ -41,6 +39,7 @@ export async function POST(req: NextRequest) {
 
     // Send notification email via Resend
     try {
+      const resend = new Resend(process.env.RESEND_API_KEY)
       await resend.emails.send({
         from: process.env.RESEND_FROM || 'outreach@smartwebsitemanagement.ca',
         to: '1terryshaw@gmail.com',

@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     try {
       await resend.emails.send({
         from: process.env.RESEND_FROM || 'outreach@smartwebsitemanagement.ca',
-        to: 'terence@smartwebsitemanagement.ca',
+        to: '1terryshaw@gmail.com',
         subject: `New SMW Lead: ${name} — ${business_name || 'No business name'}`,
         text: [
           `Name: ${name}`,

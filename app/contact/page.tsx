@@ -66,8 +66,8 @@ export default function ContactPage() {
               <p className="text-smw-slate mb-4">We&apos;ll get back to you within 24 hours.</p>
               <p className="text-sm text-smw-slate">
                 Want to book a specific time?{' '}
-                <a href="https://cal.com" target="_blank" rel="noopener noreferrer" className="text-smw-accent hover:underline">
-                  Schedule on Cal.com &rarr;
+                <a href="https://cal.com/terryshaw/mtb-strategy-call" target="_blank" rel="noopener noreferrer" className="text-smw-accent hover:underline">
+                  Schedule a strategy call &rarr;
                 </a>
               </p>
             </div>

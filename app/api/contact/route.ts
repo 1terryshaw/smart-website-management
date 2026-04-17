@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
       const resend = new Resend(process.env.RESEND_API_KEY)
       await resend.emails.send({
         from: process.env.RESEND_FROM || 'outreach@smartwebsitemanagement.ca',
-        to: '1terryshaw@gmail.com',
+        to: process.env.RESEND_NOTIFY_TO || '1terryshaw@gmail.com',
         subject: `New SMW Lead: ${name} — ${business_name || 'No business name'}`,
         text: [
           `Name: ${name}`,

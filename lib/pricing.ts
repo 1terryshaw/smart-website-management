@@ -26,7 +26,7 @@ export const PRICING_TIERS: PricingTier[] = [
     ],
   },
   {
-    name: 'Lead Boost',
+    name: 'Leads Boost',
     slug: 'reviews',
     monthlyPrice: 7,
     annualPrice: 70,
@@ -49,7 +49,7 @@ export const PRICING_TIERS: PricingTier[] = [
     stripePriceIdMonthly: process.env.STRIPE_PRICE_WEBSITE_MONTHLY || 'price_1TLpGeB4nhVx1nmUj12by529',
     stripePriceIdAnnual: process.env.STRIPE_PRICE_WEBSITE_ANNUAL || 'price_1TLluuB4nhVx1nmUNi25QXJM',
     features: [
-      'Everything in Lead Boost',
+      'Everything in Leads Boost',
       'Full custom website design',
       'Mobile-optimized & responsive',
       'Hosting + SSL included',

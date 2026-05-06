@@ -73,7 +73,7 @@ export default async function Image() {
             marginBottom: '40px',
           }}
         >
-          Websites &middot; CRM &middot; Reviews &middot; Lead Generation
+          Websites &middot; CRM &middot; Lead Boost &middot; Lead Generation
         </div>
 
         <div style={{ display: 'flex', gap: '48px' }}>

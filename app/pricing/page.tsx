@@ -4,7 +4,7 @@ import { PRICING_TIERS } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   title: 'Pricing — Smart Website Management',
-  description: 'Simple, transparent pricing for small service businesses. Free to start, paid plans from $15/mo CAD. Website, CRM, reviews, and lead generation included.',
+  description: 'Simple, transparent pricing for small service businesses. Free to start, paid plans from $7/mo CAD. Lead forwarding, custom website, CRM, and lead generation included.',
   alternates: { canonical: 'https://www.smartwebsitemanagement.ca/pricing' },
 }
 

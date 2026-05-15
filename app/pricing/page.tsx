@@ -72,7 +72,7 @@ export default function PricingPage() {
                       : 'bg-smw-navy text-white hover:bg-smw-dark'
                   }`}
                 >
-                  {tier.monthlyPrice === 0 ? 'Get Started Free' : 'Book a Call'}
+                  {tier.monthlyPrice === 0 ? 'Get Started Free' : 'Get in Touch'}
                 </Link>
               </div>
             ))}

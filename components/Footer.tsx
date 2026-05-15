@@ -81,7 +81,7 @@ export default function Footer() {
             <Link href="/pricing" className="block text-sm hover:text-white transition-colors py-1">Pricing</Link>
             <Link href="/case-studies" className="block text-sm hover:text-white transition-colors py-1">Case Studies</Link>
             <Link href="/about" className="block text-sm hover:text-white transition-colors py-1">About</Link>
-            <Link href="/contact" className="block text-sm hover:text-white transition-colors py-1">Book a Call</Link>
+            <Link href="/contact" className="block text-sm hover:text-white transition-colors py-1">Contact us</Link>
           </div>
         </div>
 

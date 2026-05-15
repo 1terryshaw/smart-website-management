@@ -102,12 +102,12 @@ export default function ServicesPage() {
       <section className="bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 text-center">
           <h2 className="text-2xl font-bold text-smw-navy mb-4">Ready to get started?</h2>
-          <p className="text-smw-slate mb-6 max-w-md mx-auto">Book a free strategy call and we&apos;ll map out exactly what your business needs.</p>
+          <p className="text-smw-slate mb-6 max-w-md mx-auto">Get in touch and we&apos;ll map out exactly what your business needs.</p>
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 bg-smw-accent text-white font-semibold px-6 py-3.5 rounded-lg hover:bg-smw-accent-light transition-colors text-sm"
           >
-            Book a Call
+            Get in Touch
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </Link>
         </div>

@@ -8,7 +8,6 @@ const NAV_LINKS = [
   { href: '/pricing', label: 'Pricing' },
   { href: '/case-studies', label: 'Case Studies' },
   { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Book a Call' },
 ]
 
 export default function Navigation() {

@@ -48,7 +48,7 @@ export default function ContactPage() {
       <section className="bg-smw-navy">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
           <span className="text-xs font-semibold uppercase tracking-widest text-smw-accent">Contact</span>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mt-2">Book a free strategy call.</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mt-2">Get in touch.</h1>
           <p className="text-gray-400 mt-3 max-w-lg">
             Tell us about your business and we&apos;ll show you exactly how we can help you grow.
           </p>
@@ -63,13 +63,7 @@ export default function ContactPage() {
                 <svg className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
               </div>
               <h2 className="text-xl font-bold text-smw-navy mb-2">Message sent!</h2>
-              <p className="text-smw-slate mb-4">We&apos;ll get back to you within 24 hours.</p>
-              <p className="text-sm text-smw-slate">
-                Want to book a specific time?{' '}
-                <a href="https://cal.com/terryshaw/mtb-strategy-call" target="_blank" rel="noopener noreferrer" className="text-smw-accent hover:underline">
-                  Schedule a strategy call &rarr;
-                </a>
-              </p>
+              <p className="text-smw-slate">We&apos;ll get back to you within 24 hours.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="bg-white rounded-xl p-8 border border-gray-100 space-y-5">

@@ -28,10 +28,10 @@ export const PRICING_TIERS: PricingTier[] = [
   {
     name: 'Leads Boost',
     slug: 'reviews',
-    monthlyPrice: 7,
-    annualPrice: 70,
-    stripePriceIdMonthly: process.env.STRIPE_PRICE_REVIEWS_MONTHLY || 'price_1TLq8uB4nhVx1nmUzoLEuTA8',
-    stripePriceIdAnnual: process.env.STRIPE_PRICE_REVIEWS_ANNUAL || 'price_1TLq8RB4nhVx1nmUVF07t9dv',
+    monthlyPrice: 9,
+    annualPrice: 90,
+    stripePriceIdMonthly: process.env.STRIPE_PRICE_REVIEWS_MONTHLY || 'price_1TWCWhB4nhVx1nmU7e5wn3EI',
+    stripePriceIdAnnual: process.env.STRIPE_PRICE_REVIEWS_ANNUAL || 'price_1TWCWhB4nhVx1nmU9rAwLlH0',
     features: [
       'Lead forwarding to your inbox + phone',
       'Branded inquiry emails to your prospects',
@@ -44,10 +44,10 @@ export const PRICING_TIERS: PricingTier[] = [
   {
     name: 'Website',
     slug: 'website',
-    monthlyPrice: 49,
-    annualPrice: 490,
-    stripePriceIdMonthly: process.env.STRIPE_PRICE_WEBSITE_MONTHLY || 'price_1TLpGeB4nhVx1nmUj12by529',
-    stripePriceIdAnnual: process.env.STRIPE_PRICE_WEBSITE_ANNUAL || 'price_1TLluuB4nhVx1nmUNi25QXJM',
+    monthlyPrice: 29,
+    annualPrice: 290,
+    stripePriceIdMonthly: process.env.STRIPE_PRICE_WEBSITE_MONTHLY || 'price_1TWCWiB4nhVx1nmUlQWuYxkF',
+    stripePriceIdAnnual: process.env.STRIPE_PRICE_WEBSITE_ANNUAL || 'price_1TWCWiB4nhVx1nmUtHQuD2co',
     features: [
       'Everything in Leads Boost',
       'Full custom website design',
@@ -62,8 +62,8 @@ export const PRICING_TIERS: PricingTier[] = [
     slug: 'growth',
     monthlyPrice: 97,
     annualPrice: 970,
-    stripePriceIdMonthly: process.env.STRIPE_PRICE_GROWTH_MONTHLY || 'price_1TLlvTB4nhVx1nmUpvP8EzvR',
-    stripePriceIdAnnual: process.env.STRIPE_PRICE_GROWTH_ANNUAL || 'price_1TLlvyB4nhVx1nmUaNascixL',
+    stripePriceIdMonthly: process.env.STRIPE_PRICE_GROWTH_MONTHLY || 'price_1TWCWiB4nhVx1nmUcfLKGTtR',
+    stripePriceIdAnnual: process.env.STRIPE_PRICE_GROWTH_ANNUAL || 'price_1TWCWjB4nhVx1nmUyZB92HW8',
     features: [
       'Everything in Website',
       'CRM + lead pipeline',

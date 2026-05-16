@@ -114,7 +114,7 @@ export default function HomePage() {
           <div className="mb-8">
             <span className="text-xs font-semibold uppercase tracking-widest text-smw-accent">Pricing</span>
             <h2 className="text-2xl sm:text-3xl font-bold text-smw-navy mt-2">Simple, transparent pricing.</h2>
-            <p className="text-smw-slate mt-2 max-w-lg">Start free. Upgrade when you&apos;re ready. All prices in CAD.</p>
+            <p className="text-smw-slate mt-2 max-w-lg">Start free. Upgrade when you&apos;re ready.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

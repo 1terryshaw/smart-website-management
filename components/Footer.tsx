@@ -26,7 +26,7 @@ export default function Footer() {
               <span className="text-white font-bold text-sm">Smart Website Management</span>
             </div>
             <p className="text-sm leading-relaxed">
-              Done-for-you websites, CRM, and lead generation for small service businesses. Canadian-owned.
+              Done-for-you websites, CRM, and lead generation for small service businesses.
             </p>
             <p className="text-sm mt-3">
               Part of the{' '}

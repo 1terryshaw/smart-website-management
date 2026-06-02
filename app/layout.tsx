@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
   title: 'Smart Website Management — Marketing agency for small service businesses',
-  description: 'Done-for-you websites, CRM, and lead generation for small service businesses. Powered by the Marketing Team in a Box platform. Canadian-owned.',
+  description: 'Done-for-you websites, CRM, and lead generation for small service businesses. Powered by the Marketing Team in a Box platform.',
   icons: { icon: '/favicon.svg' },
   metadataBase: new URL('https://www.smartwebsitemanagement.ca'),
   openGraph: {

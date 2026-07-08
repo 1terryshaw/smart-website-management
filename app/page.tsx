@@ -54,17 +54,21 @@ export default function HomePage() {
       {/* ═══════════════ STATS ═══════════════ */}
       <section className="bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+          {/* Stats — hardcoded (NO build-time Supabase fetch; deploy-storm risk).
+              stats_updated_at: 2026-07-08
+              source: RECON-mtb-swm-hubs-refresh-2026-07-08.md
+              refresh cadence: quarterly, manual */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="text-4xl font-bold text-smw-navy">60+</div>
               <div className="text-sm text-smw-slate mt-1">Clients Served</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-smw-navy">3</div>
-              <div className="text-sm text-smw-slate mt-1">Directories Live</div>
+              <div className="text-4xl font-bold text-smw-navy">73</div>
+              <div className="text-sm text-smw-slate mt-1">Verticals in Network</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-smw-accent">7,100+</div>
+              <div className="text-4xl font-bold text-smw-accent">11M+</div>
               <div className="text-sm text-smw-slate mt-1">Pros in Network</div>
             </div>
           </div>
@@ -228,7 +232,7 @@ export default function HomePage() {
             </h2>
             <p className="text-gray-400 mb-8 leading-relaxed">
               Operating between Toronto and El Salvador, Smart Website Management is the agency arm of the
-              Marketing Team in a Box network. 60+ sites built. 3 directories live. 7,100+ pros in the network.
+              Marketing Team in a Box network. 60+ sites built. 73 verticals in the network. 11M+ pros in the network.
             </p>
             <Link
               href="/contact"

@@ -87,7 +87,11 @@ export default function Footer() {
 
         <div className="border-t border-white/5 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-xs">&copy; {new Date().getFullYear()} Smart Website Management. All rights reserved.</p>
-          <p className="text-xs">
+          <div className="flex items-center gap-3 text-xs">
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+            <span aria-hidden="true">·</span>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+            <span aria-hidden="true">·</span>
             <a
               href="https://www.marketingteaminabox.com"
               target="_blank"
@@ -96,7 +100,7 @@ export default function Footer() {
             >
               marketingteaminabox.com
             </a>
-          </p>
+          </div>
         </div>
       </div>
     </footer>

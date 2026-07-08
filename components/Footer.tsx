@@ -1,9 +1,13 @@
 import Link from 'next/link'
 
 const DIRECTORIES = [
-  { name: 'GetAPro.org', href: 'https://getapro.org', desc: 'Licensed Trades' },
-  { name: 'FindYourAccountant.ca', href: 'https://findyouraccountant.ca', desc: 'CPAs' },
-  { name: 'FindMyMortgageBroker.ca', href: 'https://findmymortgagebroker.ca', desc: 'Brokers' },
+  { name: 'DoINeedATherapist.org', href: 'https://doineedatherapist.org', desc: 'Therapists' },
+  { name: 'DoINeedAPhysician.com', href: 'https://doineedaphysician.com', desc: 'Physicians' },
+  { name: 'DoINeedANotary.com', href: 'https://doineedanotary.com', desc: 'Notaries' },
+  { name: 'DoINeedAnAccountant.com', href: 'https://doineedanaccountant.com', desc: 'Accountants' },
+  { name: 'DoINeedACosmetologist.com', href: 'https://doineedacosmetologist.com', desc: 'Cosmetologists' },
+  { name: 'DoINeedARealEstateAgent.org', href: 'https://doineedarealestateagent.org', desc: 'Real Estate' },
+  { name: 'FindMyMortgageBroker.ca', href: 'https://findmymortgagebroker.ca', desc: 'Mortgage Brokers' },
 ]
 
 const TOOLS = [

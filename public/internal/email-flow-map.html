@@ -1,0 +1,821 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Estate Email-Flow Map — interactive</title><style>
+*{box-sizing:border-box} body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#0f172a;margin:0;background:#f8fafc;font-size:13px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 18px 60px}
+h1{font-size:20px;margin:0 0 2px} .meta{color:#64748b;font-size:12px;margin:0 0 16px}
+.lane{margin:22px 0 6px} .lanehdr{font-size:16px;font-weight:800;color:#fff;padding:8px 14px;border-radius:8px}
+.lane-prospect .lanehdr{background:#b45309} .lane-owner .lanehdr{background:#1e40af} .lane-staff .lanehdr{background:#374151}
+.lanehdr small{font-weight:500;opacity:.9}
+.sub{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 5px}
+.chain{display:flex;align-items:flex-start;flex-wrap:wrap;gap:2px;margin-bottom:8px}
+.grid{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:6px}
+details.box{border:1.4px solid #cbd5e1;border-radius:8px;background:#fff;width:255px;overflow:hidden}
+details.box.dark{opacity:.62;border-style:dashed;background:#f1f5f9}
+details.box[open]{border-color:#1e40af;box-shadow:0 2px 10px rgba(30,64,175,.12)}
+summary{list-style:none;cursor:pointer;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
+summary::-webkit-details-marker{display:none}
+.bhead{display:flex;align-items:center;gap:6px}
+.handle{font-weight:800;font-size:13px} .expand{margin-left:auto;color:#94a3b8;font-size:11px;transition:transform .15s}
+details[open] .expand{transform:rotate(90deg)}
+.chip{font-size:8px;font-weight:800;padding:1px 6px;border-radius:9px;letter-spacing:.3px}
+.fork{font-size:10px;font-weight:700;color:#64748b;background:#f1f5f9;padding:0 5px;border-radius:7px}
+.trig{color:#334155;font-size:11px} .from{color:#64748b;font-size:11px} .to{color:#0f766e;font-weight:600;font-size:11px}
+.assetlink{color:#1a56db;text-decoration:underline;font-size:11px;font-weight:600;word-break:break-all}
+.assetpath{font-family:ui-monospace,Menlo,Consolas,monospace;color:#64748b;font-size:10px;word-break:break-all}
+.gatebadge{margin-top:3px;font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px;display:inline-block;align-self:flex-start}
+.gatebadge.amber,.gk.amber{color:#92400e;background:#fef3c7;border:1px solid #f59e0b}
+.gatebadge.red,.gk.red{color:#991b1b;background:#fee2e2;border:1px solid #ef4444}
+.gatebadge.grey,.gk.grey{color:#374151;background:#f1f5f9;border:1px solid #94a3b8}
+.gatebadge.green,.gk.green{color:#166534;background:#dcfce7;border:1px solid #22c55e}
+.gk{font-size:10px;padding:0 5px;border-radius:5px;font-weight:700}
+.disc{padding:9px 11px 11px;border-top:1px solid #e2e8f0;background:#fbfcfe}
+.dstat{font-size:10px;color:#64748b;font-style:italic;margin-bottom:6px}
+.dlabel{font-size:10px;font-weight:800;color:#1e40af;margin:7px 0 2px;text-transform:uppercase;letter-spacing:.3px}
+.dfield{margin:4px 0} .dk{display:block;font-size:8.5px;font-weight:800;color:#94a3b8;letter-spacing:.5px}
+.dfield pre{margin:1px 0 0;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;color:#0f172a;background:#f1f5f9;padding:6px 8px;border-radius:5px;border-left:3px solid #cbd5e1}
+.arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:70px;padding-top:22px}
+.arrow .ar{font-size:20px;color:#334155;line-height:1} .gate{font-size:15px} .gate.green,.glabel.green{color:#16a34a}
+.glabel{font-size:8px;font-weight:700;text-align:center;max-width:66px}
+.callout{border-radius:8px;padding:8px 12px;margin:8px 0;font-size:12px;font-weight:600;border-left:5px solid}
+.callout.a{background:#fffbeb;border-color:#f59e0b;color:#92400e} .callout.b{background:#f1f5f9;border-color:#94a3b8;color:#475569}
+.callout.c{background:#fef2f2;border-color:#ef4444;color:#991b1b}
+.topic{background:#fff;border:1.5px dashed #94a3b8;border-radius:8px;padding:8px 12px;margin:8px 0;font-size:11px;color:#475569}
+.note{background:#fff;border:1.5px dashed #cbd5e1;border-radius:8px;padding:6px 11px;margin:6px 0;font-size:11px;color:#64748b}
+.legend{margin-top:16px;border-top:1px solid #e2e8f0;padding-top:10px;font-size:11px;color:#475569;line-height:1.7}
+</style></head><body><div class="wrap">
+<h1>Estate Outbound Email-Flow Map — interactive</h1>
+<p class="meta">2026-07-27 · TDL #1180 · 30 flows across 3 recipient swimlanes · layout spec bdec6ca · click any box to expand its verbatim subject + body</p>
+
+<section class="lane lane-prospect">
+  <div class="lanehdr">PROSPECT lane — cold / pitch to UNCLAIMED businesses <small>&nbsp;(nothing here may cross into owner mail)</small></div>
+  <div class="sub">Cold drip chain (flip-CTA → E1 → E2 → E3) · rotating senders · reply-to terry@marketingteaminabox.com</div>
+  <div class="chain"><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#b45309;background:#fef3c7">COLD</span><span class="handle">flip-CTA (stage 0)</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ cron — pilot: accountant + plumber</div>
+      <div class="from">from: rotating sender</div>
+      <div class="to">→ unclaimed biz</div>
+      <div class="tpl"><a class="assetlink" href="https://improve.doineedapro.com/" target="_blank" rel="noopener">generator LP ↗</a></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-outreach.ts:1531 (getEmailFlipCta) · 1 program</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Your ${profession} listing in ${city} is missing its description  (no-city fallback: "Your ${profession} listing is missing its description")</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${firstName},
+
+I run ${config.directoryName}, a free directory for ${profession} professionals, and ${businessName} is already listed. The one thing it's missing is a real description — the few sentences that tell a customer, and Google, what you actually do.
+
+So I built something to fix that. Answer three quick questions about your business and we'll write the description</pre></div>
+    </div>
+  </details><div class="arrow"><span class="ar">→</span></div><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#b45309;background:#fef3c7">COLD</span><span class="handle">E1 opener</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ cron — fresh unclaimed (or +7d post-flip)</div>
+      <div class="from">from: rotating sender</div>
+      <div class="to">→ unclaimed biz</div>
+      <div class="tpl"><span class="assetpath">scripts/empire-outreach.ts getEmail1</span></div>
+      <div class="gatebadge amber">◆ is_claimed only (non-pilot)</div>
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-outreach.ts:1617/1684/1766/2078 — FOUR families</div>
+      
+      <div class="dlabel">default / trades (getEmail1 :1617)</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>${businessName} — your free listing on ${config.directoryName}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${firstName},
+
+I'm Terry — I run ${config.directoryName}, a free directory for ${profession} professionals. I listed ${businessName} on the site to make it easier for nearby customers to find you.
+
+The listing is already live. Claim it — it's free and takes about 30 seconds — and you can add your own photos, services, hours, and phone number, so it shows what you'd actually want a customer to see.</pre></div>
+      <div class="dlabel">hospitality (getEmail1Hospitality :1766)</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>${businessName} — your free listing on ${config.directoryName}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${firstName},
+
+I'm Terry — I run ${config.directoryName}, a free directory of unique places to stay across ${country}. I added ${businessName} to the site to make it easier for travellers to find you.
+
+The listing is already live. Claim it — it's free and takes about 30 seconds — and you can add your own photos, a real description, contact info, and a booking link, so travellers see what makes your ${propType} worth a stay.</pre></div>
+      <div class="dlabel">hospitality-es / Wavescure (getEmail1HospitalityEs :2078)</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>${businessName} — tu anuncio gratuito en Wavescure</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>${greeting}
+
+Soy Terry — administro Wavescure, un directorio gratuito de alojamientos únicos frente al mar y de surf en Latinoamérica. Agregué ${businessName} al sitio para que los viajeros te encuentren más fácilmente.
+
+Tu anuncio ya está publicado. Reclámalo — es gratis y toma unos 30 segundos — y podrás añadir tus propias fotos, una descripción real, datos de contacto y un enlace de reservas</pre></div>
+      <div class="dlabel">skitrip (getEmail1Skitrip :1684) — no REPLY_TO footer</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>${businessName} — the numbers on your listing</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi — our page for ${businessName} on IdealSkiTrip.com pulls its stats from a third-party source from back in April, so some may be out of date. Right now it shows ${statsSentence}.
+
+You can see the page and correct anything that's wrong — it's free, no account and no card:
+
+${url}
+
+— Terry Shaw
+Smart Website Management · 403 Kingston Rd, Toronto ON M4L 1V1
+Unsubscribe: ${unsubUrl}</pre></div>
+    </div>
+  </details><div class="arrow"><span class="gate green">◆</span><span class="glabel green">claimed_at halt</span><span class="ar">→</span></div><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#b45309;background:#fef3c7">COLD</span><span class="handle">E2 (day 7)</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ drip — email1 +7d</div>
+      <div class="from">from: rotating sender</div>
+      <div class="to">→ unclaimed biz</div>
+      <div class="tpl"><a class="assetlink" href="https://www.marketingteaminabox.com/free-guides/gbp-optimization.pdf" target="_blank" rel="noopener">gbp-optimization.pdf ↗</a></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-outreach.ts:1837/1888/2134 — THREE families</div>
+      
+      <div class="dlabel">default (getEmail2 :1837) · asset gbp-optimization.pdf</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>${firstName} — the Google Business Profile guide I mentioned</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${firstName},
+
+As promised — here's the first of the two guides I mentioned.
+
+It's a plain-English walkthrough of your Google Business Profile: seven things to check, why each one matters, and exactly how to fix it — including the one most businesses miss. Most of it takes about ten minutes, and there's nothing to buy.
+
+Read it here: ${GBP_PDF_URL}</pre></div>
+      <div class="dlabel">hospitality (getEmail2Hospitality :1888) · same asset</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>${firstName} — the Google Business Profile guide I mentioned</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${firstName},
+
+As promised — here's the first of the two guides I mentioned.
+
+It's a plain-English walkthrough of your Google Business Profile — the listing travellers see first when they search for somewhere to stay nearby. Seven things to check, why each one matters, and exactly how to fix it, including the one most places miss. Most of it takes about ten minutes, and there's nothing to buy.</pre></div>
+      <div class="dlabel">hospitality-es (getEmail2HospitalityEs :2134) · asset gbp-optimization-es.pdf</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>La guía del Perfil de Empresa en Google que te mencioné</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>${greeting}
+
+Como prometí — aquí está la primera de las dos guías que te mencioné.
+
+Es un recorrido en lenguaje sencillo por tu Perfil de Empresa en Google — el anuncio que los viajeros ven primero cuando buscan dónde quedarse en la zona. Siete cosas que revisar, por qué importa cada una y exactamente cómo arreglarlas, incluida la que la mayoría de los alojamientos pasa por alto.</pre></div>
+    </div>
+  </details><div class="arrow"><span class="gate green">◆</span><span class="glabel green">claimed_at halt</span><span class="ar">→</span></div><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#b45309;background:#fef3c7">COLD</span><span class="handle">E3 (day 14 — LAST)</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ drip — email2 +7d</div>
+      <div class="from">from: rotating sender</div>
+      <div class="to">→ unclaimed biz</div>
+      <div class="tpl"><a class="assetlink" href="https://www.marketingteaminabox.com/free-guides/reviews-playbook.pdf" target="_blank" rel="noopener">reviews-playbook.pdf ↗</a></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-outreach.ts:1940/1992/2178 — THREE families</div>
+      
+      <div class="dlabel">default (getEmail3 :1940) · asset reviews-playbook.pdf</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>${firstName} — the reviews playbook</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${firstName},
+
+Here's the second guide, as promised — and the last email in this short series.
+
+This one's on getting more Google reviews: five tactics that actually work, each with the exact words to use — the scripts most "just ask for reviews" advice never gives you. Most ${profession}s are sitting on past customers who'd happily leave a review if they were asked the right way.</pre></div>
+      <div class="dlabel">hospitality (getEmail3Hospitality :1992) · same asset</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>${firstName} — the reviews playbook</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${firstName},
+
+Here's the second guide, as promised — and the last email in this short series.
+
+This one's on getting more Google reviews: five tactics that actually work, each with the exact words to use — the scripts most "just ask for reviews" advice never gives you. Most small hospitality businesses are sitting on past guests who'd happily leave a review if they were asked the right way.</pre></div>
+      <div class="dlabel">hospitality-es (getEmail3HospitalityEs :2178) · asset reviews-playbook-es.pdf</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>La guía de reseñas</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>${greeting}
+
+Aquí está la segunda guía, como prometí — y el último correo de esta breve serie.
+
+Esta trata sobre cómo conseguir más reseñas en Google: cinco tácticas que de verdad funcionan, cada una con las palabras exactas que usar — los guiones que la mayoría de los consejos de "solo pide reseñas" nunca te dan. La mayoría de los pequeños alojamientos tienen huéspedes anteriores que con gusto dejarían una reseña</pre></div>
+    </div>
+  </details></div>
+  <div class="callout a">⚠️ CALLOUT A → E1: non-pilot E1 gates only on legacy <b>is_claimed</b> (no claimed_at query filter; send-time re-check is pilot-only) — pre-Phase-4 damage shape latent.</div>
+  <div class="sub">Parallel cold branches</div>
+  <div class="grid"><details class="box dark">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#b45309;background:#fef3c7">COLD</span><span class="handle">de-serve invite</span><span class="expand">▸</span></div>
+      <div class="trig">🧑 manual --mode invite — hidden rows</div>
+      <div class="from">from: rotating (PAUSED)</div>
+      <div class="to">→ is_published=false rows</div>
+      <div class="tpl"><span class="assetpath">scripts/empire-outreach.ts getInviteEmail</span></div>
+      <div class="gatebadge red">◆ sender paused → 0 sends</div>
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-outreach.ts:2548 (getInviteEmail, notary-hardcoded) · claim + why-listed URLs are KNOWN 404 gaps</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Your ${city || "notary"} notary listing on ${site} — claim it or keep it private</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${firstName},
+
+We run ${site}, a directory people use to find local notaries. While building it, we compiled a listing for ${businessName} in ${cityState} from public notary-commission records.
+
+Your listing is not published until you confirm you want it up.
+
+Claiming takes about a minute and lets you:
+  • Publish it so clients can find you
+  • Correct or update the details
+  • Or remove it, if you'd rather not be listed
+
+Claim your listing: ${claimUrl}
+
+Prefer to stay private? Do nothing — it stays hidden.
+
+— The ${site} team
+${postal}
+Unsubscribe: ${unsubUrl}  ·  Why you got this: ${sourceExplainerUrl}</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#b45309;background:#fef3c7">COLD</span><span class="handle">claim-pitch-forward</span><span class="fork">×64</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ lead lands on unclaimed listing</div>
+      <div class="from">from: notifications@ (CEM + List-Unsub)</div>
+      <div class="to">→ scraped unclaimed email</div>
+      <div class="tpl"><span class="assetpath">lib/resend.ts sendClaimPitchForward</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">64 forks, subject/body copy consistent · NO 🔔 bell (vs lead-forward #11); carries List-Unsubscribe + CASL footer</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>New lead from ${directoryName} — ${data.visitorName}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>New Lead from ${directoryName}  (${displayDomain})
+Hi ${data.businessName}, you have a new lead!
+[Reply to ${data.visitorName} →]
+...
+Sent by ${CASL_SENDER}, operator of ${directoryName} (${displayDomain}), because your business is listed in our public directory.
+Unsubscribe: ${unsubUrl}   (= https://{domain}/api/unsubscribe?email=u-{to}&amp;scope=pitch)</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#b45309;background:#fef3c7">COLD</span><span class="handle">getapro-claim-outreach</span><span class="expand">▸</span></div>
+      <div class="trig">🧑 manual script</div>
+      <div class="from">from: Gmail — DoINeedAPro</div>
+      <div class="to">→ claim_verified=false</div>
+      <div class="tpl"><span class="assetpath">getapro-v2/scripts/claim-outreach.ts</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">getapro-v2/scripts/claim-outreach.ts (~L44) · Gmail 1terryshaw@gmail.com · 1 script</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Your ${tradeLabel} business is listed on DoINeedAPro — claim it free</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${listing.business_name},
+
+Your ${tradeLabel} business in ${listing.city} is already listed on DoINeedAPro — the growing directory of trusted professionals across Canada and the US.
+
+Homeowners searching for ${tradeLabel} services in ${listing.city} can find you right now. But your listing only shows basic info from public records.
+
+Claim your listing for free to: ...  [Claim Your Free Listing → ${claimUrl}]  · Or upgrade to Pro ($29/mo).</pre></div>
+    </div>
+  </details></div>
+  <div class="callout b">⏸️ CALLOUT B → de-serve invite: sender <b>notify.doineedanotary.com is paused → branch dark (0 sends)</b>.</div>
+  <div class="note">🔔 <b>#6 claim-pitch vs #11 lead-forward</b> — near-identical templates; only the <b>🔔 bell (on #11 lead-forward)</b> + the <b>CASL footer &amp; List-Unsubscribe headers (on #6 claim-pitch)</b> discriminate them.</div>
+  <div class="topic">⇄ <b>Same topic: GBP optimization.</b> E2 ships <a class="assetlink" href="https://www.marketingteaminabox.com/free-guides/gbp-optimization.pdf" target="_blank" rel="noopener">gbp-optimization.pdf ↗</a> (marketingteaminabox.com) while the OWNER-lane place-id-confirm email ships <a class="assetlink" href="https://msqiynbhoeruqctaesqk.supabase.co/storage/v1/object/public/public-assets/gbp-tutorial.pdf" target="_blank" rel="noopener">gbp-tutorial.pdf ↗</a> (Supabase) — two separate PDFs, two hosts, same subject. Observation, not a fix.</div>
+</section>
+
+<section class="lane lane-owner">
+  <div class="lanehdr">OWNER lane — transactional + billing + drip to CLAIMED owners <small>&nbsp;(+ consumer counterpart)</small></div>
+  <div class="sub">Auth / claim</div>
+  <div class="grid"><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">magic-link</span><span class="fork">×70</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ owner requests login</div>
+      <div class="from">from: auth@</div>
+      <div class="to">→ owner email</div>
+      <div class="tpl"><span class="assetpath">lib/resend.ts sendMagicLink</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">lib/resend.ts:325 · 69 forks, copy consistent (html-only)</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Your login link for ${verticalConfig.name}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Welcome back to ${verticalConfig.name}
+Click the link below to access your listing dashboard:
+[Access Dashboard] → ${magicLink}
+Or copy this link: ${magicLink}
+This link will log you in and is valid for 30 days.
+If you didn't request this, you can safely ignore this email.</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">claim-verify</span><span class="fork">×70</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ owner clicks "claim"</div>
+      <div class="from">from: auth@</div>
+      <div class="to">→ listing email</div>
+      <div class="tpl"><span class="assetpath">lib/resend.ts sendClaimEmail</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">lib/resend.ts:359 · 68 forks · uk-claim = 21 forks/3 MD5, subject identical with PATH divergence at ${baseUrl}/api/uk/claim/verify (vs /api/claim/verify)</div>
+      
+      <div class="dlabel">sendClaimEmail (canonical)</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Verify your claim on ${verticalConfig.name}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Claim Your Listing on ${verticalConfig.name}
+Click the link below to verify your ownership claim:
+[Verify Claim] → ${verifyLink}
+Or copy this link: ${verifyLink}
+If you didn't request this, you can safely ignore this email.
+
+(verifyLink = ${baseUrl}/api/claim/verify?token=${claimToken}&amp;slug=${slug})</pre></div>
+      <div class="dlabel">uk-claim-email diff (sendUkClaimEmail, 21 forks)</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Verify your claim on ${verticalConfig.name}  (identical subject)</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>&lt;h2&gt;Claim ${firmName} on ${verticalConfig.name}&lt;/h2&gt;&lt;p&gt;Click the link below to verify you control this business and add a free…&lt;/p&gt;
+DIVERGENCE: verifyLink = ${baseUrl}/api/uk/claim/verify?token=… (NOT /api/claim/verify)</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">claim-dispute</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ #886 dispute</div>
+      <div class="from">from: auth@</div>
+      <div class="to">→ on-file owner</div>
+      <div class="tpl"><span class="assetpath">lib/claim-dispute-notify.ts</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">doineedabookkeeper/lib/claim-dispute-notify.ts:12 · 1 fork</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Someone is claiming your ${brand} listing</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi,
+Someone (${claimantRedacted}) just requested to claim your business listing on ${brand}: ...
+If this was you or your authorized agent, no action is needed.
+If you did not authorize this, you can dispute it here: ${disputeUrl}
+— ${brand}</pre></div>
+    </div>
+  </details></div>
+  <div class="sub">Lead / inquiry / lifecycle</div>
+  <div class="grid"><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">lead-forward</span><span class="fork">×70</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ lead on CLAIMED listing</div>
+      <div class="from">from: notifications@</div>
+      <div class="to">→ claimed owner</div>
+      <div class="tpl"><span class="assetpath">lib/resend.ts sendLeadForwardEmail</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">lib/resend.ts (~L30) · 68 forks · WITH 🔔 bell (vs claim-pitch #6)</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>🔔 New lead from ${directoryName} — ${data.visitorName}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>New Lead from ${directoryName}  (${displayDomain})
+Hi ${data.businessName}, you have a new lead!
+[Reply to ${data.visitorName} →]  (mailto ${data.visitorEmail})
+Or call directly: ${data.visitorPhone}
+This lead was sent through ${directoryName}. Manage your listing at https://{domain}/owner/login</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">inquiry pair</span><span class="fork">×69</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ inquiry submitted</div>
+      <div class="from">from: notifications@</div>
+      <div class="to">→ business + visitor</div>
+      <div class="tpl"><span class="assetpath">lib/email.ts / lib/resend.ts</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">~69/68 forks · BOTH halves shown</div>
+      
+      <div class="dlabel">business half — sendInquiryNotification</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>New inquiry for ${listingName} on ${verticalConfig.name}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>New Inquiry for ${listingName}
+From: ${inquiry.name} (${inquiry.email}, ${inquiry.phone})
+Message:
+${inquiry.message}
+(replyTo: inquiry.email)</pre></div>
+      <div class="dlabel">consumer half — sendInquiryConfirmation</div>
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Your inquiry to ${data.businessName} has been sent</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${data.visitorName},
+Thanks for reaching out through ${directoryName}. Your inquiry has been sent to ${data.businessName} — they'll be in touch with you directly.
+What you sent: Service: ${data.serviceNeeded} · Message: ${data.message}
+If you don't hear back soon, just reply to this email and we'll follow up.</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">add-business</span><span class="fork">×60</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ self-serve /add-business</div>
+      <div class="from">from: notifications@</div>
+      <div class="to">→ submitter</div>
+      <div class="tpl"><span class="assetpath">lib/resend.ts sendAddBusinessEmail</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">60 forks · confirmation to submitter (html)</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Verify your ${verticalConfig.name} listing — magic link inside</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Verify your ${verticalConfig.name} listing
+Thanks for adding ${name} to ${verticalConfig.name}. Click below to verify your email and finish your listing. The link expires in 24 hours.
+[Verify and continue] → ${verifyLink}
+Or copy this link: ${verifyLink}</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">listing-approved</span><span class="expand">▸</span></div>
+      <div class="trig">🧑 staff approves</div>
+      <div class="from">from: Gmail SMTP</div>
+      <div class="to">→ submitter</div>
+      <div class="tpl"><span class="assetpath">lib/email.ts sendListingApprovedConfirmation</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">doineedhvac/lib/email.ts:133 · 1 fork (Gmail)</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Your listing is live on ${verticalConfig.name}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Your listing is live on ${verticalConfig.name}
+${business_name} has been approved and is now visible in the directory.
+[View your listing] → ${listing.listingUrl}
+Or copy this link: ${listing.listingUrl}</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">weekly-lead-digest</span><span class="fork">×68</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ weekly cron</div>
+      <div class="from">from: notifications@</div>
+      <div class="to">→ owner_email (has leads)</div>
+      <div class="tpl"><span class="assetpath">app/api/cron/weekly-lead-digest</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">68 forks / 8 MD5s (html)</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>${directoryName} — ${count} lead${count === 1 ? "" : "s"} this week</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${listing.name},
+${count} leads received this week
+${breakdownLines}
+[View your leads →]  https://{domain}/owner/login
+Sent by ${directoryName}. Manage your listing at https://{domain}/owner/login</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">mover-welcome</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ post-claim (movingcompany)</div>
+      <div class="from">from: notifications@</div>
+      <div class="to">→ claimed owner</div>
+      <div class="tpl"><a class="assetlink" href="https://msqiynbhoeruqctaesqk.supabase.co/storage/v1/object/public/public-assets/welcome-pdf/reviews-plus-welcome-v1.pdf" target="_blank" rel="noopener">reviews-plus-welcome-v1.pdf ↗</a></div>
+      <div class="gatebadge red">◆ 4th welcome PDF (see Callout C)</div>
+    </summary>
+    <div class="disc">
+      <div class="dstat">doineedamovingcompany/lib/welcome-email.ts:100 · 1 fork · DIVERGENT PDF</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Welcome to Reviews Plus — your onboarding playbook</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>${directoryName}  (${displayDomain})
+Hi ${listing.name},
+[welcome body + CTA button → WELCOME_PDF_URL]
+
+WELCOME_PDF_URL = .../public-assets/welcome-pdf/reviews-plus-welcome-v1.pdf  (≠ the central welcome-to-reviews-plus.pdf used by #19)</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">referral-thanks</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ referred listing upgrades</div>
+      <div class="from">from: noreply@doineedafinancialadvisor.ca</div>
+      <div class="to">→ the referrer</div>
+      <div class="tpl"><span class="assetpath">app/api/referral/notify</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">doineedafinancialadvisor/app/api/referral/notify/route.ts:90 · 1 fork</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>${referee.name} just upgraded thanks to you!</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${referrer.name},
+${referee.name} just upgraded their listing on DoINeedAFinancialAdvisor — thanks to your referral.
+Your free month #3 is now locked in. No action needed on your end.
+Thanks for sharing the network!
+— The DoINeedAFinancialAdvisor Team</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">place-id-confirm</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ claim fires /place-id/resolve</div>
+      <div class="from">from: resend_from (empire-billing)</div>
+      <div class="to">→ claimed owner</div>
+      <div class="tpl"><a class="assetlink" href="https://msqiynbhoeruqctaesqk.supabase.co/storage/v1/object/public/public-assets/gbp-tutorial.pdf" target="_blank" rel="noopener">gbp-tutorial.pdf ↗</a></div>
+      <div class="gatebadge grey">◆ no-op if already-confirmed</div>
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-billing/app/api/place-id/resolve/route.ts:119 · 1 central (html-only)</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Is this your Google listing? — ${biz}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>&lt;p&gt;Hi,&lt;/p&gt;&lt;p&gt;We found a Google listing that may be &lt;strong&gt;${biz}&lt;/strong&gt;: &lt;strong&gt;${d.name ?? biz}&lt;/strong&gt; — ★ ${Number(d.rating).toFixed(1)} (${d.count} reviews).&lt;/p&gt;&lt;p&gt;Confirm it's yours and we'll show your star rating and review count on your listing. If it's not right, you can paste your own Google link.&lt;/p&gt;&lt;p&gt;Once you confirm, &lt;a href="…/gbp-tutorial.pdf"&gt;this guide&lt;/a&gt; walks you through claiming and optimizing your Google Business Profile — the highest-leverage thing you can do for local visibility.&lt;/p&gt;&lt;p&gt;&lt;a href="${url}"&gt;Review and confirm →&lt;/a&gt;&lt;/p&gt;</pre></div>
+    </div>
+  </details></div>
+  <div class="callout c">🟥 CALLOUT C → #16 mover-welcome: carries a <b>FOURTH welcome PDF</b> (welcome-pdf/reviews-plus-welcome-v1.pdf) distinct from #19's welcome-to-reviews-plus.pdf — <b>mover bypasses the central welcome path</b>.</div>
+  <div class="sub">Billing (Stripe-triggered)</div>
+  <div class="chain"><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">reviews-plus-welcome</span><span class="expand">▸</span></div>
+      <div class="trig">💳 subscription.created (paid)</div>
+      <div class="from">from: resend_from</div>
+      <div class="to">→ paid owner</div>
+      <div class="tpl"><a class="assetlink" href="https://msqiynbhoeruqctaesqk.supabase.co/storage/v1/object/public/public-assets/welcome-to-reviews-plus.pdf" target="_blank" rel="noopener">welcome-to-reviews-plus.pdf ↗</a></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-billing/lib/reviews-plus-welcome.ts:108 · 1 central</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Welcome to Reviews Plus — your playbook is inside</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${firstName},
+${intro}
+Here's the playbook PDF I promised you. It walks you through the three highest-ROI things you can do this week:
+1. Claim your Google Business Profile
+2. Set up your review QR code
+3. Use the response templates for incoming reviews
+Download: ${WELCOME_PDF_URL}
+Your dashboard: ${dashboardUrl}
+If you have any questions, just reply. Goes straight to</pre></div>
+    </div>
+  </details><div class="arrow"><span class="gate green">◆</span><span class="glabel green">triggers</span><span class="ar">→</span></div><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">💳 subscription.created</span><span class="expand">▸</span></div>
+      <div class="trig">Stripe event</div>
+      <div class="from">from: —</div>
+      <div class="to">→ —</div>
+      <div class="tpl"><span class="assetpath">empire-billing/app/api/stripe/webhook</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">trigger node — fires reviews-plus-welcome + trial-will-end</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>(webhook event, not an email)</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>checkout.session.completed / customer.subscription.created → sendReviewsPlusWelcome() + schedules trial_will_end.</pre></div>
+    </div>
+  </details><div class="arrow"><span class="ar">→</span></div><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span><span class="handle">trial-will-end</span><span class="expand">▸</span></div>
+      <div class="trig">💳 trial_will_end (~3d before)</div>
+      <div class="from">from: resend_from</div>
+      <div class="to">→ trialing owner</div>
+      <div class="tpl"><span class="assetpath">empire-billing webhook L691</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-billing/app/api/stripe/webhook/route.ts:691 · 1 central</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Your Reviews Plus trial ends in 3 days</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${businessName},
+Your 30-day free trial of Reviews Plus ends on ${trialEndStr}.
+When it does, your card will be charged ${priceStr} and your listing keeps everything it has now — nothing changes, you just keep going.
+If Reviews Plus isn't for you, cancel any time before ${trialEndStr} and you won't be charged a cent: ${manageUrl}
+If you cancel, here's what your listing would lose: - Your "Featured" b</pre></div>
+    </div>
+  </details></div>
+  <div class="sub">Post-claim Reviews-Plus drip (hourly, by hours since claimed_at)</div>
+  <div class="chain"><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#166534;background:#dcfce7">DRIP</span><span class="handle">drip 0h welcome</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ hourly — claimed_at +0h</div>
+      <div class="from">from: Resend</div>
+      <div class="to">→ claimed owner</div>
+      <div class="tpl"><span class="assetpath">scripts/drip-templates/1-welcome.ts</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-drip-sender.ts + drip-templates/1-welcome.ts:5</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>You claimed ${ctx.businessName} on ${ctx.directoryName} — here's what you've got</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${ctx.firstName},
+You just claimed ${ctx.businessName} on ${ctx.directoryName}. Your listing now carries a trust badge to anyone searching for ${ctx.profession}s in ${ctx.city}, and you control what it says.
+Your listing: ${ctx.listingUrl}
+What you have right now (free, forever): - "Claimed" badge … - Star rating and review count from Google - Up</pre></div>
+    </div>
+  </details><div class="arrow"><span class="ar">→</span></div><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#166534;background:#dcfce7">DRIP</span><span class="handle">drip 72h</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ +72h</div>
+      <div class="from">from: Resend</div>
+      <div class="to">→ claimed owner</div>
+      <div class="tpl"><span class="assetpath">drip-templates/2-reviews-rankings.ts</span></div>
+      <div class="gatebadge green">◆ skip if paid</div>
+    </summary>
+    <div class="disc">
+      <div class="dstat">drip-templates/2-reviews-rankings.ts:6 · no CTA by design</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>How to get more Google reviews for ${ctx.businessName}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${ctx.firstName},
+Quick one, and it's the highest-leverage thing you can do this month.
+Most ${ctx.profession} businesses in ${ctx.city} have fewer than 10 Google reviews — which is actually your opening. Google ranks businesses with more reviews higher in local search …
+What works: 1. Ask within a couple of hours of finishing the job.</pre></div>
+    </div>
+  </details><div class="arrow"><span class="ar">→</span></div><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#166534;background:#dcfce7">DRIP</span><span class="handle">drip 168h trial ask</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ +168h</div>
+      <div class="from">from: Resend</div>
+      <div class="to">→ claimed owner</div>
+      <div class="tpl"><span class="assetpath">drip-templates/3-trial-primary.ts</span></div>
+      <div class="gatebadge green">◆ skip if paid</div>
+    </summary>
+    <div class="disc">
+      <div class="dstat">drip-templates/3-trial-primary.ts:5 · CTA trialUrl</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Reviews Plus — what it changes for your ${ctx.directoryName} listing</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${ctx.firstName},
+A few days ago I mentioned Reviews Plus. Here's exactly what it changes:
+On your listing — what searchers see: - Your 3 most recent 5-star Google reviews, shown in full - "Featured" badge instead of Claimed … - Up to 10 photos, plus a full-width hero cover image … - Top-of-browse placement …
+[Start 30-Day Free Trial → ${ctx.trialUrl}]</pre></div>
+    </div>
+  </details><div class="arrow"><span class="ar">→</span></div><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#166534;background:#dcfce7">DRIP</span><span class="handle">drip 336h check-in</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ +336h</div>
+      <div class="from">from: Resend</div>
+      <div class="to">→ claimed owner</div>
+      <div class="tpl"><span class="assetpath">drip-templates/4-quick-check-in.ts</span></div>
+      <div class="gatebadge green">◆ skip if paid</div>
+    </summary>
+    <div class="disc">
+      <div class="dstat">drip-templates/4-quick-check-in.ts:5 · reply hook only</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Quick question, ${ctx.firstName}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${ctx.firstName},
+You're on the free Claimed tier on ${ctx.directoryName}, which is totally fine — it's free forever.
+Just checking: anything specific holding you back from Reviews Plus? Pricing, features, timing, something I explained badly? The first month is free, so cost shouldn't be the barrier — but I'm always curious what actually is.
+Hit reply and let me know. Goes straight to my inbox.</pre></div>
+    </div>
+  </details><div class="arrow"><span class="ar">→</span></div><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#166534;background:#dcfce7">DRIP</span><span class="handle">drip 504h last call</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ +504h</div>
+      <div class="from">from: Resend</div>
+      <div class="to">→ claimed owner</div>
+      <div class="tpl"><span class="assetpath">drip-templates/5-last-call.ts</span></div>
+      <div class="gatebadge green">◆ skip if paid</div>
+    </summary>
+    <div class="disc">
+      <div class="dstat">drip-templates/5-last-call.ts:5 · CTA trialUrl</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Wrapping up — your free listing on ${ctx.directoryName} stays live</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Hi ${ctx.firstName},
+Last automated email about Reviews Plus. Your free claimed listing for ${ctx.businessName} stays live indefinitely — no action needed.
+Free Claimed tier (forever): - "Claimed" badge - Contact info, star rating, review count - 3 photos, description, services - Inquiry form to your email
+Reviews Plus — first 30 days free, then $9/month: …
+[Start 30-Day Free Trial → ${ctx.trialUrl}]</pre></div>
+    </div>
+  </details></div>
+</section>
+
+<section class="lane lane-staff">
+  <div class="lanehdr">STAFF / OPS lane — internal alerts &amp; admin notifications</div>
+  <div class="sub">Submission / privacy ops</div>
+  <div class="grid"><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#374151;background:#e5e7eb">OPS</span><span class="handle">admin-notify (pending)</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ self-serve submission pending</div>
+      <div class="from">from: Gmail admin@</div>
+      <div class="to">→ ADMIN_NOTIFICATION_EMAIL</div>
+      <div class="tpl"><span class="assetpath">lib/email.ts sendAdminNotification</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">doineedhvac/lib/email.ts (~L73) · 1 fork (Gmail)</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>New pending listing: ${payload.business_name} in ${payload.city}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>New pending listing submitted to ${verticalConfig.name}.
+[business/city/category/contact fields]
+Review and approve: ${opts.adminQueueUrl}</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#374151;background:#e5e7eb">OPS</span><span class="handle">removal-request</span><span class="fork">×3</span><span class="expand">▸</span></div>
+      <div class="trig">⚡ visitor removal form</div>
+      <div class="from">from: notifications@ (Removal Requests)</div>
+      <div class="to">→ privacy@marketingteaminabox.com</div>
+      <div class="tpl"><span class="assetpath">app/api/removal-request</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">app/api/removal-request/route.ts:54 · 3 forks · never instant-delists</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>Removal request — ${REMOVAL_VERTICAL} — ${req.listingRef}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>[internal ops notice — a visitor submitted a removal request; body carries the listing ref + requester details for an admin to run scripts/removal-action.ts.]</pre></div>
+    </div>
+  </details></div>
+  <div class="sub">Billing ops alerts</div>
+  <div class="grid"><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#374151;background:#e5e7eb">OPS</span><span class="handle">siteforge-needed</span><span class="expand">▸</span></div>
+      <div class="trig">💳 website/growth purchase</div>
+      <div class="from">from: GetAPro Alerts &lt;alerts@&gt;</div>
+      <div class="to">→ admin (build ops)</div>
+      <div class="tpl"><a class="assetlink" href="https://siteforge-silk.vercel.app/" target="_blank" rel="noopener">siteforge-silk.vercel.app ↗</a></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-billing/app/api/stripe/webhook/route.ts:164 · 1 central</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>🏗️ New SiteForge needed: ${listing.business_name || listing.slug} (${tierLabel} tier, ${vertical.vertical_slug})</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>New SiteForge site needed for a paying customer.
+Vertical: ${vertical.vertical_slug}
+Business: ${listing.business_name || listing.name || '(unknown)'}
+Tier: ${tierLabel} ($${tierPrice}/mo)
+Listing ID / Slug / Category / City / Address …
+(generate at https://siteforge-silk.vercel.app/)</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#374151;background:#e5e7eb">OPS</span><span class="handle">upgrade-admin-notify</span><span class="expand">▸</span></div>
+      <div class="trig">💳 any upgrade</div>
+      <div class="from">from: resend_from</div>
+      <div class="to">→ admin</div>
+      <div class="tpl"><span class="assetpath">empire-billing webhook L383</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-billing/app/api/stripe/webhook/route.ts:383 · 1 central</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>[${vertical.vertical_slug}] Upgrade: ${listingSlug} → ${tier}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>Checkout completed.
+Vertical: ${vertical.vertical_slug}
+Listing: ${listingSlug}
+Tier: ${tier}
+Customer: ${session.customer_details?.email}
+Subscription: ${subscriptionId}</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#374151;background:#e5e7eb">OPS</span><span class="handle">accountant-local-webhook</span><span class="expand">▸</span></div>
+      <div class="trig">💳 Stripe event (local)</div>
+      <div class="from">from: alerts@</div>
+      <div class="to">→ admin</div>
+      <div class="tpl"><span class="assetpath">doineedanaccountant/app/api/stripe/webhook</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">1 fork · local dup of siteforge/upgrade-notify</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>🚨 Stripe price ID mismatch — manual review needed (${listingSlug || "unknown"})</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>(price-mismatch alert, L43)  +  its own SiteForge alert (L161): "🏗️ New SiteForge needed: ${listing.business_name || listing.slug} (${tierLabel} tier)" → body "New SiteForge site needed for a paying customer. Business: … Tier: … Listing ID: …"</pre></div>
+    </div>
+  </details></div>
+  <div class="sub">Monitoring (two separate Sentinels)</div>
+  <div class="grid"><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#374151;background:#e5e7eb">OPS</span><span class="handle">sentinel-alert</span><span class="expand">▸</span></div>
+      <div class="trig">📨 threshold state transition</div>
+      <div class="from">from: monitor@ (Resend + Telegram)</div>
+      <div class="to">→ 1terryshaw@gmail.com</div>
+      <div class="tpl"><span class="assetpath">empire-sentinel-monitor/lib/alerter.js</span></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">empire-sentinel-monitor/bin/check.js (formatMetricAlert L287 / formatSiteAlert L309) · 1 (Beast)</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>[Empire Alert] Supabase ${check.label} ${check.thresholdText} (${check.displayValue})   ·   [Empire Alert] Site down: ${site.url}</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>🚨 Empire Alert — ${check.label}
+Threshold: ${check.thresholdText}
+Current: ${check.displayValue}
+Project: Empire Supabase (${env.SUPABASE_PROJECT_REF})
+Time: ${utcStamp()}
+[Recent: ${history.join(' → ')}]
+${tail}
+(email body = Telegram string with * stripped)</pre></div>
+    </div>
+  </details><details class="box ">
+    <summary>
+      <div class="bhead"><span class="chip" style="color:#374151;background:#e5e7eb">OPS</span><span class="handle">sentinel-app-digest</span><span class="expand">▸</span></div>
+      <div class="trig">⏰ weekly cron</div>
+      <div class="from">from: Gmail nodemailer</div>
+      <div class="to">→ terry@marketingteaminabox.com</div>
+      <div class="tpl"><a class="assetlink" href="https://sentinel-sigma-liart.vercel.app/" target="_blank" rel="noopener">sentinel-sigma-liart.vercel.app ↗</a></div>
+      
+    </summary>
+    <div class="disc">
+      <div class="dstat">nav-fix/sentinel/app/api/cron/weekly-digest/route.ts:131 · 1 (html-only)</div>
+      
+      
+      <div class="dfield"><span class="dk">SUBJECT</span><pre>🛡️ Sentinel Weekly Security Digest: Score ${score}/100</pre></div>
+      <div class="dfield"><span class="dk">BODY (first 400, verbatim)</span><pre>🛡️ SENTINEL — WEEKLY SECURITY DIGEST
+${dateStr} | Chief Information Security Officer
+Empire Security Score ${score}/100
+Alert Summary — Total open: ${totalOpenAlerts} · Repos Tracked ${reposCount}
+Sentinel's Verdict "${verdict}"
+[VIEW DASHBOARD → https://sentinel-sigma-liart.vercel.app]
+— Sentinel, CISO — "I don't trust anything. That's my job."</pre></div>
+    </div>
+  </details></div>
+</section>
+
+<div class="legend">
+  <b>Class:</b> <span class="chip" style="color:#b45309;background:#fef3c7">COLD</span> <span class="chip" style="color:#1e40af;background:#dbeafe">TXN</span> <span class="chip" style="color:#374151;background:#e5e7eb">OPS</span> <span class="chip" style="color:#166534;background:#dcfce7">DRIP</span>
+  &nbsp;·&nbsp; <b>Gates ◆:</b> <span class="gk green">green</span>=claimed_at halt / skip-if-paid · <span class="gk amber">amber</span>=is_claimed-only · <span class="gk red">red</span>=paused / divergence · <span class="gk grey">grey</span>=already-confirmed no-op
+  &nbsp;·&nbsp; <b>Links:</b> asset URLs are clickable (all verified HTTP 200); <b>in-repo template paths are plain text</b> — the nav-fix repos are private (GitHub 404 for anonymous), so there is no public URL to link.
+  &nbsp;·&nbsp; <b>Click any box</b> to expand its verbatim subject + body.</div>
+</div></body></html>

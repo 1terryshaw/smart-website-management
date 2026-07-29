@@ -77,7 +77,6 @@ export const TIERS: Record<TierId, Tier> = {
     ],
     expandedFeatures: [
       'All Verified features',
-      'SMS + email lead alerts',
       'Owner dashboard with Recent Leads',
       'Weekly digest of activity',
       'Branded inquiry emails to prospects',

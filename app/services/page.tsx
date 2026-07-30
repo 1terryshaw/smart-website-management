@@ -32,7 +32,7 @@ const SERVICES = [
       'Automated review request sequences',
       'AI-drafted Google review responses',
       'Speed-to-lead auto-responders',
-      'Email & SMS nurture campaigns',
+      'Email nurture campaigns',
       'WhatsApp business automations',
     ],
     icon: (

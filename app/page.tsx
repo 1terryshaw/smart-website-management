@@ -205,7 +205,7 @@ export default function HomePage() {
 
             {/* K59 */}
             <a
-              href="https://k59surfresort.com"
+              href="https://www.k59surfhotel.com"
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-white rounded-xl p-6 border border-gray-100 hover:border-smw-accent/30 hover:shadow-md transition-all"

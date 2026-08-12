@@ -28,7 +28,7 @@ const CASE_STUDIES = [
     solution: 'Migrated from GoHighLevel to a custom Next.js site on Vercel with Supabase backend. Rebuilt the booking flow, optimized all images, and set up proper SEO.',
     result: 'Saved $200/month on platform costs, improved page speed 3x, and gained full control over the site design and functionality.',
     tags: ['Migration', 'Cost Savings', 'Performance'],
-    link: 'https://k59surfresort.com',
+    link: 'https://www.k59surfhotel.com',
     color: 'emerald-600',
   },
 ]

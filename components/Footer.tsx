@@ -48,7 +48,10 @@ export default function Footer() {
 
           {/* Directories */}
           <div>
-            <h4 className="text-white font-semibold text-sm mb-3 uppercase tracking-wider">Directories</h4>
+            <h4 className="text-white font-semibold text-sm mb-3 uppercase tracking-wider">Related Directories</h4>
+            <a href="https://doineedapro.com/directories" target="_blank" rel="noopener noreferrer" className="font-medium block text-sm hover:text-white transition-colors py-1">
+              Browse all directories &rarr;
+            </a>
             {DIRECTORIES.map((d) => (
               <a
                 key={d.href}

@@ -3,6 +3,13 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "Terms of Service for Smart Website Management.",
+  // REPOINT, not an add (static-canonical-fan-v1 tail). app/layout.tsx sets an absolute
+  // `alternates.canonical` to the site ROOT, which every descendant page inherits — so
+  // this page was telling crawlers to index the homepage INSTEAD of itself. A page-level
+  // `alternates` overrides the inherited one. Relative, resolved by the layout
+  // metadataBase; the layout is deliberately left alone so the homepage keeps its own
+  // root canonical. The layout sets no hreflang/languages, so nothing is dropped here.
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

@@ -47,8 +47,10 @@ export default function PricingTableMarketing() {
           const tier = TIERS[id];
           const anchored = tier.anchored;
           const isFree = tier.priceMonthlyUSD === 0;
-          const price = annual ? tier.priceAnnualUSD : tier.priceMonthlyUSD;
-          const unit = annual ? "year" : "month";
+          // swm-website-offer-99-v2: Website is monthly only ($99/month) — the annual toggle never applies.
+          const yearly = annual && !tier.monthlyOnly;
+          const price = yearly ? tier.priceAnnualUSD : tier.priceMonthlyUSD;
+          const unit = yearly ? "year" : "month";
           const isExpanded = !!expanded[tier.id];
           // SWM funnel routing: every tier routes to the consultation contact form.
           const ctaHref = "/contact";
@@ -147,6 +149,10 @@ export default function PricingTableMarketing() {
                     </Link>
                   )}
                 </div>
+              )}
+
+              {tier.footnote && (
+                <p className="mt-2 text-xs text-center text-gray-500">{tier.footnote}</p>
               )}
             </div>
           );

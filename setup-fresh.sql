@@ -18,3 +18,23 @@ DROP POLICY IF EXISTS "service_role_all" ON smw_leads;
 CREATE POLICY "service_role_all" ON smw_leads FOR ALL
   USING (auth.role() = 'service_role')
   WITH CHECK (auth.role() = 'service_role');
+
+-- ── swm-preview-intake-form-v1 (2026-10-02): Free 7-Day Website Preview intake fields ──
+alter table public.smw_leads add column if not exists business_phone text;
+alter table public.smw_leads add column if not exists service_area text;
+alter table public.smw_leads add column if not exists gbp_url text;
+alter table public.smw_leads add column if not exists website_url text;
+alter table public.smw_leads add column if not exists business_description text;
+alter table public.smw_leads add column if not exists services_offered text;
+alter table public.smw_leads add column if not exists assets_link text;
+alter table public.smw_leads add column if not exists special_instructions text;
+alter table public.smw_leads add column if not exists form_version text;
+alter table public.smw_leads add column if not exists is_test boolean;
+alter table public.smw_leads add column if not exists review_status text;
+alter table public.smw_leads alter column review_status set default 'needs_review';
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname='smw_leads_review_status_check') then
+    alter table public.smw_leads add constraint smw_leads_review_status_check
+      check (review_status is null or review_status in ('needs_review','accepted','rejected','rejected_test'));
+  end if;
+end $$;

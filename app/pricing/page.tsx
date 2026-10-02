@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import PricingTableMarketing from '@/components/PricingTableMarketing'
+import BusinessAgentCard from '@/components/BusinessAgentCard'
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Pricing — Smart Website Management',
@@ -28,6 +31,13 @@ export default function PricingPage() {
           <div className="mt-10 text-center text-sm text-smw-slate">
             All plans include the full MTB platform. Annual plans save 2 months.
           </div>
+        </div>
+      </section>
+
+      {/* swm-business-agent-mva-v1: the next step up the ladder */}
+      <section className="bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+          <BusinessAgentCard />
         </div>
       </section>
     </>

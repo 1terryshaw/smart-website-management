@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   EMPTY_INTAKE,
   FIELD_LABELS,
@@ -50,6 +50,23 @@ export default function ContactPage() {
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<IntakeField, string>>>({})
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  // Spam controls: signed form-load time (server enforces a minimum fill time) + honeypot.
+  const [formToken, setFormToken] = useState('')
+  const [honeypot, setHoneypot] = useState('')
+
+  async function loadToken() {
+    try {
+      const res = await fetch('/api/contact/token', { cache: 'no-store' })
+      const data = await res.json()
+      if (typeof data.token === 'string') setFormToken(data.token)
+    } catch {
+      // Retried on submit.
+    }
+  }
+
+  useEffect(() => {
+    loadToken()
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -65,12 +82,19 @@ export default function ContactPage() {
       return
     }
 
+    if (!formToken) {
+      loadToken()
+      setStatus('error')
+      setErrorMsg('The form is still loading. Please try again in a few seconds.')
+      return
+    }
+
     setStatus('sending')
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, form_token: formToken, contact_fax: honeypot }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -154,7 +178,21 @@ export default function ContactPage() {
               <p className="text-smw-slate">We&apos;ll review your details and email you when your preview is ready.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} noValidate className="bg-white rounded-xl p-5 sm:p-8 border border-gray-100 space-y-5">
+            <form onSubmit={handleSubmit} noValidate className="relative bg-white rounded-xl p-5 sm:p-8 border border-gray-100 space-y-5">
+              {/* Honeypot: off-screen (not display:none), hidden from assistive tech and the tab order. */}
+              <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
+                <label htmlFor="contact_fax">Leave this field empty</label>
+                <input
+                  id="contact_fax"
+                  name="contact_fax"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
+              </div>
+
               {REQUIRED_SPECS.map(renderField)}
 
               <div className="pt-2 border-t border-gray-100">

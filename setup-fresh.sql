@@ -38,3 +38,8 @@ do $$ begin
       check (review_status is null or review_status in ('needs_review','accepted','rejected','rejected_test'));
   end if;
 end $$;
+
+-- ── swm-preview-intake-form-v1b (2026-10-02): per-IP rate limit (hashed IP, never raw) + grant hygiene ──
+alter table public.smw_leads add column if not exists ip_hash text;
+create index if not exists smw_leads_ip_hash_created_at_idx on public.smw_leads (ip_hash, created_at);
+revoke select on public.smw_leads from anon, authenticated;

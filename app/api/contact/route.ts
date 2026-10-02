@@ -9,6 +9,14 @@ import {
   normalizeIntake,
   validateIntake,
 } from '@/lib/preview-intake'
+import {
+  RATE_LIMIT_MAX,
+  RATE_LIMIT_WINDOW_MS,
+  TOKEN_FIELD,
+  checkFormToken,
+  clientIpHash,
+  honeypotFilled,
+} from '@/lib/intake-guard'
 
 export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
@@ -16,6 +24,10 @@ export const fetchCache = 'force-no-store'
 // Free 7-Day Website Preview intake. Every submission lands in smw_leads as
 // review_status='needs_review' for hand-QA — nothing here builds, publishes or
 // releases a preview.
+//
+// Spam controls: a filled honeypot or a submit < 3s after the form loaded gets
+// a success-shaped 200 with no insert and no email; a missing/forged/expired
+// form token is a 400; >= 3 saved submissions from one IP hash in 60 min is a 429.
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>
   try {
@@ -25,6 +37,22 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    if (honeypotFilled(body)) {
+      console.log('Intake dropped: honeypot')
+      return NextResponse.json({ success: true })
+    }
+    const token = checkFormToken(body[TOKEN_FIELD])
+    if (token === 'invalid') {
+      return NextResponse.json(
+        { error: 'Your form session expired. Please reload the page and try again.' },
+        { status: 400 }
+      )
+    }
+    if (token === 'too_fast') {
+      console.log('Intake dropped: submitted too fast')
+      return NextResponse.json({ success: true })
+    }
+
     const v = normalizeIntake(body)
     const errors = validateIntake(v)
     if (Object.keys(errors).length > 0) {
@@ -37,7 +65,31 @@ export async function POST(req: NextRequest) {
     // Flag-driven test marker (never string matching): prefixes the notification.
     const isTest = body.is_test === true
 
-    const { error: dbError } = await getSupabaseAdmin()
+    const ipHash = clientIpHash(req)
+    const supabase = getSupabaseAdmin()
+    const { count, error: countError } = await supabase
+      .from('smw_leads')
+      .select('id', { count: 'exact', head: true })
+      .eq('ip_hash', ipHash)
+      .gte('created_at', new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString())
+    if (countError) {
+      console.error('Rate-limit count error:', countError)
+      return NextResponse.json(
+        { error: 'Failed to save your request. Please try again.' },
+        { status: 500 }
+      )
+    }
+    if ((count ?? 0) >= RATE_LIMIT_MAX) {
+      return NextResponse.json(
+        {
+          error:
+            "We've already received several requests from you in the last hour. Please try again later, or email terence@smartwebsitemanagement.ca.",
+        },
+        { status: 429 }
+      )
+    }
+
+    const { error: dbError } = await supabase
       .from('smw_leads')
       .insert({
         name: v.name,
@@ -53,6 +105,7 @@ export async function POST(req: NextRequest) {
         special_instructions: v.special_instructions || null,
         form_version: INTAKE_FORM_VERSION,
         is_test: isTest,
+        ip_hash: ipHash,
         review_status: 'needs_review',
         source: 'smw_website',
       })

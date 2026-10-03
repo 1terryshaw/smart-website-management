@@ -19,7 +19,7 @@ const primary = "#2563EB";
 
 const fmt = (n: number) => "$" + n.toLocaleString("en-US");
 
-export default function PricingTableMarketing({ pricing = null }: { pricing?: AgentPricing }) {
+export default function PricingTableMarketing({ pricing = null, showPaths = true }: { pricing?: AgentPricing; showPaths?: boolean }) {
   const [annual, setAnnual] = useState(false);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
@@ -165,6 +165,7 @@ export default function PricingTableMarketing({ pricing = null }: { pricing?: Ag
         <AgentCard annual={annual} pricing={pricing} />
       </div>
 
+      {showPaths && (
       <div className="mt-12 max-w-3xl mx-auto" data-testid="ladder">
         <p className="text-sm font-medium text-center text-gray-600 mb-3">Start the Business Agent directly from any plan:</p>
         <ul aria-label="Ways to start the Business Agent" className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm font-medium text-center">
@@ -182,6 +183,7 @@ export default function PricingTableMarketing({ pricing = null }: { pricing?: Ag
           One {annual ? `${fmt(AGENT.annualUSD)}/yr` : `${fmt(AGENT.monthlyUSD)}/mo`} total, whichever way you start — a Website owner keeps their site live.
         </p>
       </div>
+      )}
     </div>
   );
 }
@@ -190,8 +192,7 @@ export default function PricingTableMarketing({ pricing = null }: { pricing?: Ag
 function AgentCard({ annual, pricing }: { annual: boolean; pricing: AgentPricing }) {
   const f = pricing?.founding;
   const foundingOpen =
-    !!f && (annual ? f.available_year === true : f.available === true) &&
-    typeof f.remaining === "number" && typeof f.cap === "number" && f.remaining > 0 && f.remaining <= f.cap;
+    !!f && (annual ? f.available_year === true : f.available === true) && typeof f.remaining === "number" && f.remaining > 0;
   const price = annual ? AGENT.annualUSD : AGENT.monthlyUSD;
   const unit = annual ? "yr" : "mo";
   const href = annual ? `${START_URL}?interval=year` : START_URL;
@@ -207,9 +208,6 @@ function AgentCard({ annual, pricing }: { annual: boolean; pricing: AgentPricing
         <span className="text-4xl font-bold">{fmt(price)}</span>
         <span className="text-gray-500">/{annual ? "year" : "month"}</span>
       </div>
-      <p className="mt-4 text-sm">
-        {AGENT.leadIn.replace("your $199", `your ${fmt(price)}${annual ? "/yr" : ""}`)} Plus:
-      </p>
       <ul className="mt-4 space-y-3 flex-1">
         {AGENT.features.map((t) => (
           <li key={t} className="flex items-start gap-2 text-sm">
@@ -218,10 +216,9 @@ function AgentCard({ annual, pricing }: { annual: boolean; pricing: AgentPricing
           </li>
         ))}
       </ul>
-      <p className="mt-4 text-sm font-semibold">{AGENT.closing}</p>
       {foundingOpen && (
         <p className="mt-3 rounded-lg bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-900" data-testid="founding-offer">
-          Founding offer: {annual ? fmt(AGENT.foundingAnnualUSD) : fmt(AGENT.foundingMonthlyUSD)}/{unit}, locked for life — only {f!.remaining} of {f!.cap} spots left.
+          Founding price for the first 10 owners: {annual ? fmt(AGENT.foundingAnnualUSD) : fmt(AGENT.foundingMonthlyUSD)}/{unit}, locked for life.
         </p>
       )}
       <a
@@ -232,6 +229,7 @@ function AgentCard({ annual, pricing }: { annual: boolean; pricing: AgentPricing
       >
         {AGENT.cta}
       </a>
+      <p className="mt-2 text-xs text-center text-gray-500" data-testid="business-agent-cta-note">{AGENT.ctaNote}</p>
     </div>
   );
 }

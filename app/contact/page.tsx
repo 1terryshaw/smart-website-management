@@ -68,6 +68,15 @@ export default function ContactPage() {
     loadToken()
   }, [])
 
+  // annual-v1: the pricing page's Website CTA carries the billing period. Nothing is charged here — the preview is free; the owner picks $99/month or $990/year when they approve it.
+  const [planNote, setPlanNote] = useState('')
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search)
+    if (q.get('plan') === 'website') setPlanNote(q.get('cycle') === 'annual'
+      ? 'You picked the Website at $990/year. Your preview is free and needs no card — when you approve it you can go live at $990/year (2 months free).'
+      : 'You picked the Website at $99/month. Your preview is free and needs no card — you only pay if you approve it.')
+  }, [])
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setErrorMsg('')
@@ -179,6 +188,7 @@ export default function ContactPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate className="relative bg-white rounded-xl p-5 sm:p-8 border border-gray-100 space-y-5">
+              {planNote && <p className="rounded-lg bg-blue-50 px-4 py-3 text-sm text-blue-900" data-testid="plan-note">{planNote}</p>}
               {/* Honeypot: off-screen (not display:none), hidden from assistive tech and the tab order. */}
               <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
                 <label htmlFor="contact_fax">Leave this field empty</label>

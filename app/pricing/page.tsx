@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import PricingTableMarketing from '@/components/PricingTableMarketing'
-import BusinessAgentCard from '@/components/BusinessAgentCard'
+import { getAgentPricing } from '@/lib/agent-offer'
 
 export const revalidate = 60
 
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.smartwebsitemanagement.ca/pricing' },
 }
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const pricing = await getAgentPricing()
   return (
     <>
       <section className="bg-smw-navy">
@@ -26,7 +27,7 @@ export default function PricingPage() {
       {/* Pricing tiers — canonical empire card (lib/pricing-canonical.ts SSOT) */}
       <section className="bg-smw-off-white bg-grid">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-          <PricingTableMarketing />
+          <PricingTableMarketing pricing={pricing} />
 
           <div className="mt-10 text-center text-sm text-smw-slate">
             All plans include the full MTB platform. Annual plans save 2 months.
@@ -34,12 +35,6 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* swm-business-agent-mva-v1: the next step up the ladder */}
-      <section className="bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-          <BusinessAgentCard />
-        </div>
-      </section>
     </>
   )
 }

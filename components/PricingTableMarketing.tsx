@@ -3,18 +3,23 @@
 // - Data SSOT: lib/pricing-canonical.ts (verbatim copy from the 56 canonical repos;
 //   vestigial Stripe IDs retained as-is — SWM has no self-serve checkout route)
 // - No owner-auth / vertical.config coupling (SWM is the agency marketing site)
-// - CTAs route to SWM's existing funnel: every tier → /contact
-//   (never /claim or /directory/[slug]?upgrade=true)
+// - CTAs route to SWM's existing funnel (/contact, never /claim or /directory/[slug]?upgrade=true) and CARRY the billing period
+//   (annual-v1): Reviews Plus + Website -> /contact?plan=…&cycle=…; Business Agent -> the self-serve 7-day no-card trial, ?interval=year when Annual is on.
+// - annual-v1 (CEO ruling 2026-10-03): ONE Monthly/Annual toggle drives EVERY paid card (Reviews Plus $9/$90, Website $99/$990, Business Agent $199/$1,990)
+//   and the "start from any plan" paths; founding $149/mo or $1,490/yr shown per interval from the shared Stripe counter.
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { TIERS, TIER_ORDER } from "@/lib/pricing-canonical";
+import { AGENT, START_URL, type AgentPricing } from "@/lib/agent-offer";
 
 // SWM brand accent (smw-accent in tailwind.config.ts) — replaces verticalConfig.primaryColor
 const primary = "#2563EB";
 
-export default function PricingTableMarketing() {
+const fmt = (n: number) => "$" + n.toLocaleString("en-US");
+
+export default function PricingTableMarketing({ pricing = null }: { pricing?: AgentPricing }) {
   const [annual, setAnnual] = useState(false);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
@@ -42,18 +47,18 @@ export default function PricingTableMarketing() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-start">
         {TIER_ORDER.map((id) => {
           const tier = TIERS[id];
           const anchored = tier.anchored;
           const isFree = tier.priceMonthlyUSD === 0;
-          // swm-website-offer-99-v2: Website is monthly only ($99/month) — the annual toggle never applies.
-          const yearly = annual && !tier.monthlyOnly;
+          const yearly = annual && tier.priceAnnualUSD > 0;
           const price = yearly ? tier.priceAnnualUSD : tier.priceMonthlyUSD;
           const unit = yearly ? "year" : "month";
           const isExpanded = !!expanded[tier.id];
-          // SWM funnel routing: every tier routes to the consultation contact form.
-          const ctaHref = "/contact";
+          // SWM funnel routing: tiers route to the contact/preview form and carry the plan + billing period.
+          const cycle = annual ? "annual" : "monthly";
+          const ctaHref = isFree ? "/contact" : `/contact?plan=${tier.id === "website" ? "website" : "reviews-plus"}&cycle=${cycle}`;
 
           return (
             <div
@@ -137,7 +142,7 @@ export default function PricingTableMarketing() {
                     style={{ backgroundColor: anchored ? primary : "#374151" }}
                   >
                     {tier.cta.mode === "direct"
-                      ? `${tier.cta.label} — $${tier.priceMonthlyUSD}/mo`
+                      ? `${tier.cta.label} — $${price}/${yearly ? "yr" : "mo"}`
                       : tier.cta.label}
                   </Link>
                   {tier.secondaryCta && (
@@ -145,7 +150,7 @@ export default function PricingTableMarketing() {
                       href={ctaHref}
                       className="w-full text-center text-xs font-medium text-gray-500 underline hover:text-gray-700"
                     >
-                      {tier.secondaryCta.label}
+                      {tier.secondaryCta.label.replace(/\$\d+\/mo$/, `$${price}/${yearly ? "yr" : "mo"}`)}
                     </Link>
                   )}
                 </div>
@@ -157,7 +162,76 @@ export default function PricingTableMarketing() {
             </div>
           );
         })}
+        <AgentCard annual={annual} pricing={pricing} />
       </div>
+
+      <div className="mt-12 max-w-3xl mx-auto" data-testid="ladder">
+        <p className="text-sm font-medium text-center text-gray-600 mb-3">Start the Business Agent directly from any plan:</p>
+        <ul aria-label="Ways to start the Business Agent" className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm font-medium text-center">
+          {AGENT.starts.map((step) => (
+            <li key={step} className="flex flex-col items-center justify-center rounded-lg px-3 py-3 border bg-white text-gray-700 border-gray-200" data-testid="start-path">
+              <span>{step}</span>
+              <span aria-hidden="true" className="text-gray-400">↓</span>
+              <span className="font-semibold text-white bg-smw-navy rounded px-2 py-1">
+                {annual ? `${fmt(AGENT.annualUSD)}/yr` : fmt(AGENT.monthlyUSD)} Business Agent
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-2 text-xs text-center text-gray-500">
+          One {annual ? `${fmt(AGENT.annualUSD)}/yr` : `${fmt(AGENT.monthlyUSD)}/mo`} total, whichever way you start — a Website owner keeps their site live.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// The Business Agent as a full card in the grid (approved copy; the toggle changes only the price figures and the CTA's billing period).
+function AgentCard({ annual, pricing }: { annual: boolean; pricing: AgentPricing }) {
+  const f = pricing?.founding;
+  const foundingOpen =
+    !!f && (annual ? f.available_year === true : f.available === true) &&
+    typeof f.remaining === "number" && typeof f.cap === "number" && f.remaining > 0 && f.remaining <= f.cap;
+  const price = annual ? AGENT.annualUSD : AGENT.monthlyUSD;
+  const unit = annual ? "yr" : "mo";
+  const href = annual ? `${START_URL}?interval=year` : START_URL;
+  return (
+    <div
+      className="rounded-xl p-8 flex flex-col bg-white relative"
+      style={{ border: `1.5px solid ${primary}`, boxShadow: "0 10px 25px -5px rgba(0,0,0,0.1)" }}
+      data-testid="business-agent-card"
+    >
+      <h3 className="text-xl font-bold">{AGENT.name}</h3>
+      <p className="text-sm text-gray-500 mt-2">No contract. Cancel anytime.</p>
+      <div className="mt-3" data-testid="agent-price">
+        <span className="text-4xl font-bold">{fmt(price)}</span>
+        <span className="text-gray-500">/{annual ? "year" : "month"}</span>
+      </div>
+      <p className="mt-4 text-sm">
+        {AGENT.leadIn.replace("your $199", `your ${fmt(price)}${annual ? "/yr" : ""}`)} Plus:
+      </p>
+      <ul className="mt-4 space-y-3 flex-1">
+        {AGENT.features.map((t) => (
+          <li key={t} className="flex items-start gap-2 text-sm">
+            <span className="text-green-500 mt-0.5" aria-hidden="true">&#10003;</span>
+            <span>{t}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-4 text-sm font-semibold">{AGENT.closing}</p>
+      {foundingOpen && (
+        <p className="mt-3 rounded-lg bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-900" data-testid="founding-offer">
+          Founding offer: {annual ? fmt(AGENT.foundingAnnualUSD) : fmt(AGENT.foundingMonthlyUSD)}/{unit}, locked for life — only {f!.remaining} of {f!.cap} spots left.
+        </p>
+      )}
+      <a
+        href={href}
+        className="mt-6 w-full px-4 py-3 rounded-lg text-white font-medium leading-snug hover:opacity-90 transition-opacity text-center"
+        style={{ backgroundColor: primary, minHeight: 48 }}
+        data-testid="business-agent-cta"
+      >
+        {AGENT.cta}
+      </a>
     </div>
   );
 }

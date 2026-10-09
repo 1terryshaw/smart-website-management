@@ -4,7 +4,7 @@
 //   vestigial Stripe IDs retained as-is — SWM has no self-serve checkout route)
 // - No owner-auth / vertical.config coupling (SWM is the agency marketing site)
 // - CTAs route to SWM's existing funnel (/contact, never /claim or /directory/[slug]?upgrade=true) and CARRY the billing period
-//   (annual-v1): Reviews Plus + Website -> /contact?plan=…&cycle=…; Business Agent -> the self-serve 7-day no-card trial, ?interval=year when Annual is on.
+//   (annual-v1): Leads Plus (ex-Reviews Plus) + Website $49/$99 -> /contact?plan=…&cycle=…; Business Agent -> the self-serve 7-day no-card trial, ?interval=year when Annual is on.
 // - annual-v1 (CEO ruling 2026-10-03): ONE Monthly/Annual toggle drives EVERY paid card (Reviews Plus $9/$90, Website $99/$990, Business Agent $199/$1,990)
 //   and the "start from any plan" paths; founding $149/mo or $1,490/yr shown per interval from the shared Stripe counter.
 "use client";
@@ -47,18 +47,19 @@ export default function PricingTableMarketing({ pricing = null, showPaths = true
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto items-start">
         {TIER_ORDER.map((id) => {
           const tier = TIERS[id];
           const anchored = tier.anchored;
           const isFree = tier.priceMonthlyUSD === 0;
-          const yearly = annual && tier.priceAnnualUSD > 0;
+          const yearly = annual && tier.priceAnnualUSD > 0 && !tier.monthlyOnly; // leads-plus-fleet-fan-v1: monthly-only cards ignore the toggle
           const price = yearly ? tier.priceAnnualUSD : tier.priceMonthlyUSD;
           const unit = yearly ? "year" : "month";
           const isExpanded = !!expanded[tier.id];
           // SWM funnel routing: tiers route to the contact/preview form and carry the plan + billing period.
           const cycle = annual ? "annual" : "monthly";
-          const ctaHref = isFree ? "/contact" : `/contact?plan=${tier.id === "website" ? "website" : "reviews-plus"}&cycle=${cycle}`;
+          // leads-plus-fleet-fan-v1: the $49 Website card asks for the same free preview (plan=website-49); monthly-only cards carry monthly.
+          const ctaHref = isFree ? "/contact" : `/contact?plan=${tier.id === "website" ? "website" : tier.id === "website_basic" ? "website-49" : "reviews-plus"}&cycle=${tier.monthlyOnly ? "monthly" : cycle}`;
 
           return (
             <div

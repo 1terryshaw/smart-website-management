@@ -6,7 +6,7 @@ export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Pricing — Smart Website Management',
-  description: 'Simple, transparent pricing for small service businesses. Free to start, paid plans from $9/mo. Lead forwarding, custom website, CRM, and lead generation included.',
+  description: 'Simple, transparent pricing for small service businesses. Free to start, paid plans from $19/mo. Lead forwarding, custom website, CRM, and lead generation included.',
   alternates: { canonical: 'https://www.smartwebsitemanagement.ca/pricing' },
 }
 

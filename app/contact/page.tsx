@@ -72,6 +72,8 @@ export default function ContactPage() {
   const [planNote, setPlanNote] = useState('')
   useEffect(() => {
     const q = new URLSearchParams(window.location.search)
+    // leads-plus-fleet-fan-v1: the $49 Website card (free preview first, same as the $99).
+    if (q.get('plan') === 'website-49') setPlanNote('You picked the Website at $49/month. Your preview is free and needs no card — you only pay if you approve it.')
     if (q.get('plan') === 'website') setPlanNote(q.get('cycle') === 'annual'
       ? 'You picked the Website at $990/year. Your preview is free and needs no card — when you approve it you can go live at $990/year (2 months free).'
       : 'You picked the Website at $99/month. Your preview is free and needs no card — you only pay if you approve it.')

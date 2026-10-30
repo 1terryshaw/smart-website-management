@@ -4,7 +4,7 @@
 //   vestigial Stripe IDs retained as-is — SWM has no self-serve checkout route)
 // - No owner-auth / vertical.config coupling (SWM is the agency marketing site)
 // - CTAs route to SWM's existing funnel (/contact, never /claim or /directory/[slug]?upgrade=true) and CARRY the billing period
-//   (annual-v1): Leads Plus (ex-Reviews Plus) + Website $49/$99 -> /contact?plan=…&cycle=…; Business Agent -> the self-serve 7-day no-card trial, ?interval=year when Annual is on.
+//   (annual-v1): Website $49/$99 -> /contact?plan=…&cycle=…; Leads Plus -> empire-billing /leads-plus (TDL #1359); Business Agent -> the self-serve 7-day no-card trial, ?interval=year when Annual is on.
 // - annual-v1 (CEO ruling 2026-10-03): ONE Monthly/Annual toggle drives EVERY paid card (Reviews Plus $9/$90, Website $99/$990, Business Agent $199/$1,990)
 //   and the "start from any plan" paths; founding $149/mo or $1,490/yr shown per interval from the shared Stripe counter.
 "use client";
@@ -13,6 +13,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { TIERS, TIER_ORDER } from "@/lib/pricing-canonical";
 import { AGENT, START_URL, type AgentPricing } from "@/lib/agent-offer";
+
+// leads-plus-checkout-funnel-fix-v1 (TDL #1359): Leads Plus is self-serve — empire-billing (the one seller) hosts the start page,
+// which sends the owner to their directory's claim/login flow and from there to Stripe Checkout. mode = which card button was used.
+const LEADS_PLUS_START = "https://billing.marketingteaminabox.com/leads-plus";
 
 // SWM brand accent (smw-accent in tailwind.config.ts) — replaces verticalConfig.primaryColor
 const primary = "#2563EB";
@@ -59,7 +63,9 @@ export default function PricingTableMarketing({ pricing = null, showPaths = true
           // SWM funnel routing: tiers route to the contact/preview form and carry the plan + billing period.
           const cycle = annual ? "annual" : "monthly";
           // leads-plus-fleet-fan-v1: the $49 Website card asks for the same free preview (plan=website-49); monthly-only cards carry monthly.
-          const ctaHref = isFree ? "/contact" : `/contact?plan=${tier.id === "website" ? "website" : tier.id === "website_basic" ? "website-49" : "reviews-plus"}&cycle=${tier.monthlyOnly ? "monthly" : cycle}`;
+          const isLeadsPlus = tier.id === "reviews_plus";
+          const ctaHref = isFree ? "/contact" : isLeadsPlus ? `${LEADS_PLUS_START}?mode=trial&cycle=monthly` : `/contact?plan=${tier.id === "website" ? "website" : "website-49"}&cycle=${tier.monthlyOnly ? "monthly" : cycle}`;
+          const secondaryHref = isLeadsPlus ? `${LEADS_PLUS_START}?mode=direct&cycle=monthly` : ctaHref;
 
           return (
             <div
@@ -148,7 +154,7 @@ export default function PricingTableMarketing({ pricing = null, showPaths = true
                   </Link>
                   {tier.secondaryCta && (
                     <Link
-                      href={ctaHref}
+                      href={secondaryHref}
                       className="w-full text-center text-xs font-medium text-gray-500 underline hover:text-gray-700"
                     >
                       {tier.secondaryCta.label.replace(/\$\d+\/mo$/, `$${price}/${yearly ? "yr" : "mo"}`)}
